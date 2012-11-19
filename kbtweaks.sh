@@ -3,5 +3,3 @@
 sh -c 'echo "2" > /sys/module/hid_apple/parameters/fnmode'
 #normal layout (tilda under escape)
 sh -c 'echo "0" > /sys/module/hid_apple/parameters/iso_layout'
-#swapping alt and command
-setxkbmap -option altwin:swap_lalt_lwin
