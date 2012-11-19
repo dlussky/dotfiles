@@ -38,7 +38,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/aurantium.custom/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "guake"
@@ -55,11 +55,10 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
-    awful.layout.suit.spiral,
-    awful.layout.suit.tile,
     awful.layout.suit.tile.left,
-    awful.layout.suit.max,
+    awful.layout.suit.tile.top,
     awful.layout.suit.floating,
+    awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
 }
 -- }}}
@@ -69,7 +68,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ " α ", " β ", " γ " }, s, layouts[2])
+    tags[s] = awful.tag({ "⠐", "⠡", "⠪", "⠵" }, s, layouts[1])
 end
 -- }}}
 
@@ -94,7 +93,7 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+mytextclock = awful.widget.textclock({ align = "right" }, " %d.%m | %H:%M ")
 
 utils.cal.register(mytextclock, "<span color='green'><b>%s</b></span>")
 
@@ -166,7 +165,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "bottom", height = 22,  screen = s })
+    mywibox[s] = awful.wibox({ position = "bottom", height = 14,  screen = s })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
@@ -388,7 +387,7 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 -- }}}
 
 awful.util.spawn_with_shell("run_once unagi")
-awful.util.spawn_with_shell("sudo /home/dlussky/kbtweaks.sh")
+awful.util.spawn_with_shell("sudo " .. os.getenv("HOME") .. "/kbtweaks.sh")
 awful.util.spawn_with_shell("run_once gnome-settings-daemon")
 awful.util.spawn_with_shell("run_once nm-applet")
 awful.util.spawn_with_shell("run_once /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")

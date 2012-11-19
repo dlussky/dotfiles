@@ -23,6 +23,8 @@ sudo ln -s gnome-awesome.desktop /usr/share/xsessions/gnome-awesome.desktop
 
 #configs (assuming you cloned this repo to ~/dotfiles)
 cp -R /etc/xdg/awesome ~/.config
+mkdir ~/.config/awesome/themes
+cp -R aurantium.custom ~/.config/awesome/themes
 rm ~/.config/awesome/rc.lua
 
 ln -s ~/dotfiles/rc.lua ~/.config/awesome/rc.lua
