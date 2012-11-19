@@ -9,6 +9,7 @@ require("naughty")
 
 -- Load Debian menu entries
 require("debian.menu")
+require("cal")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -94,6 +95,8 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
+
+utils.cal.register(mytextclock, "<span color='green'><b>%s</b></span>")
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -345,8 +348,8 @@ awful.rules.rules = {
       callback = awful.placement.centered },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    { rule = { class = "Guake.py" },
-      properties = { maximized_vertical = true, maximized_horizontal = true, floating = true } },
+    { rule = { class = "Guake" },
+      properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -384,9 +387,14 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.util.spawn_with_shell("/home/dlussky/freetype-infinality.sh")
-awful.util.spawn_with_shell("run_once cairo-compmgr")
-awful.util.spawn_with_shell("sudo /home/dlussky/setkb.sh")
+awful.util.spawn_with_shell("run_once unagi")
+awful.util.spawn_with_shell("sudo /home/dlussky/kbtweaks.sh")
+awful.util.spawn_with_shell("run_once gnome-settings-daemon")
+awful.util.spawn_with_shell("run_once nm-applet")
+awful.util.spawn_with_shell("run_once /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
+awful.util.spawn_with_shell("run_once gnome-keyring-daemon")
+awful.util.spawn_with_shell("run_once /usr/bin/ssh-agent /usr/bin/dbus-launch")
 awful.util.spawn_with_shell("run_once synapse")
-awful.util.spawn_with_shell("sleep 6 && run_once guake")
+awful.util.spawn_with_shell("run_once python /usr/bin/guake")
+
 
