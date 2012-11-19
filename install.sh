@@ -14,14 +14,14 @@ wget http://deb.opera.com/archive.key -O- | sudo apt-key add -
 #software
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get -y install mc guake synapse php5 php5-cli php5-fpm php5-mysqlnd nginx-full opera oracle-java7-installer doublecmd-gtk sublime-text filezilla awesome awesome-extra git cabextract moc zsh
+sudo apt-get -y install mc guake synapse php5 php5-cli php5-fpm php5-mysqlnd nginx-full opera oracle-java7-installer doublecmd-gtk sublime-text filezilla awesome awesome-extra git cabextract moc zsh unagi
 
 #installing awesome-over-gnome
 sudo ln -s awesome.session /usr/share/gnome-session/sessions/awesome.session
 sudo ln -s awesome.desktop /usr/share/applications/awesome.desktop
 sudo ln -s gnome-awesome.desktop /usr/share/xsessions/gnome-awesome.desktop
 
-#configs
+#configs (assuming you cloned this repo to ~/dotfiles)
 cp -R /etc/xdg/awesome ~/.config
 rm ~/.config/awesome/rc.lua
 
@@ -29,6 +29,8 @@ ln -s ~/dotfiles/rc.lua ~/.config/awesome/rc.lua
 ln -s ~/dotfiles/rc.lua ~/rc.lua
 ln -s ~/dotfiles/kbtweaks.sh ~/kbtweaks.sh
 ln -s ~/dotfiles/.zshrc ~/.zshrc
+
+sudo ln -s ~/dotfiles/run_once /bin/run_once
 
 #windows fonts (including Consolas)
 cd ~
