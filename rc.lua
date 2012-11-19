@@ -55,8 +55,8 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
+    awful.layout.suit.tile,
     awful.layout.suit.tile.left,
-    awful.layout.suit.tile.top,
     awful.layout.suit.floating,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
@@ -390,6 +390,7 @@ awful.util.spawn_with_shell("run_once unagi")
 awful.util.spawn_with_shell("sudo " .. os.getenv("HOME") .. "/kbtweaks.sh")
 awful.util.spawn_with_shell("run_once gnome-settings-daemon")
 awful.util.spawn_with_shell("run_once nm-applet")
+awful.util.spawn_with_shell("/usr/lib/gnome-settings-daemon/gnome-fallback-mount-helper")
 awful.util.spawn_with_shell("run_once /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
 awful.util.spawn_with_shell("run_once gnome-keyring-daemon")
 awful.util.spawn_with_shell("run_once /usr/bin/ssh-agent /usr/bin/dbus-launch")
