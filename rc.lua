@@ -386,9 +386,9 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.util.spawn_with_shell("run_once unagi")
+awful.util.spawn_with_shell("run_once xcompmgr -r 6 -o 1 -l -8 -t -8 -I 0.03 -O 0.02 -D 2 -cCfF")
 awful.util.spawn_with_shell("sudo " .. os.getenv("HOME") .. "/kbtweaks.sh")
-awful.util.spawn_with_shell("run_once gnome-settings-daemon")
+awful.util.spawn_with_shell("gnome-settings-daemon")
 awful.util.spawn_with_shell("run_once nm-applet")
 awful.util.spawn_with_shell("/usr/lib/gnome-settings-daemon/gnome-fallback-mount-helper")
 awful.util.spawn_with_shell("run_once /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")

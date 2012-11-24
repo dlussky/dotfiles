@@ -21,8 +21,10 @@ sudo find . -name libfreetype.so.6.9.0 -exec mv {} /usr/lib/freetype-infinality/
 sudo cp infinality-settings.sh /etc/profile.d
 echo "export LD_PRELOAD=/usr/lib/freetype-infinality/libfreetype.so.6" > freetype-infinality.sh
 sudo cp freetype-infinality.sh /etc/profile.d
-sudo chmod +x infinality-settings.sh
-sudo chown +x freetype-infinality.sh
+sudo chmod +x /etc/profile.d/infinality-settings.sh
+sudo chown +x /etc/profile.d/freetype-infinality.sh
 
 cd /usr/lib/freetype-infinality
 sudo ln -s libfreetype.so.6.9.0 libfreetype.so.6
+
+sudo /etc/fonts/infinality/infctl.sh setstyle
