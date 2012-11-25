@@ -4,6 +4,7 @@ sudo add-apt-repository -y ppa:alexx2000/doublecmd
 sudo add-apt-repository -y ppa:webupd8team/sublime-text-2
 sudo add-apt-repository -y ppa:no1wantdthisname/ppa
 sudo add-apt-repository -y ppa:webupd8team/java
+sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
 
 sudo sh -c 'echo "deb http://repo.ajenti.org/debian main main" >> /etc/apt/sources.list'
 sudo sh -c 'echo "deb http://deb.opera.com/opera/ stable non-free" >> /etc/apt/sources.list.d/opera.list' 
@@ -14,7 +15,8 @@ wget http://deb.opera.com/archive.key -O- | sudo apt-key add -
 #software
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get -y install mc guake synapse php5 php5-cli php5-fpm php5-mysqlnd nginx-full opera oracle-java7-installer doublecmd-gtk sublime-text filezilla awesome awesome-extra git cabextract moc zsh screen htop shutter
+sudo apt-get -y install mc guake synapse php5 php5-cli php5-fpm php5-mysqlnd nginx-full opera oracle-java7-installer doublecmd-gtk sublime-text filezilla awesome awesome-extra git cabextract moc zsh screen htop shutter grub-customizer
+sudo apt-get -y remove appmenu-gtk appmenu-gtk3 appmenu-qt
 
 #installing awesome-over-gnome
 sudo ln -s awesome.session /usr/share/gnome-session/sessions/awesome.session

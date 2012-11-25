@@ -16,6 +16,7 @@ alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error
 alias mocp='mocp -T transparent-background'
 alias chmodf='find . -type f -exec chmod 664 {} \;'
 alias chmodd='find . -type d -exec chmod 775 {} \;'
+alias ls="ls -al --color"
 
 PS1="%{$bold_color$fg[green]%}%n%{$bold_color$fg[white]%}@%m %{$reset_color$fg[white]%}%~%{$bold_color$fg[white]%}%# %{$reset_color$fg[white]%}"
 
