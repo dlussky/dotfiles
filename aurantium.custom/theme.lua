@@ -13,7 +13,7 @@ theme.bg_minimize   = "#000000"
 
 theme.fg_normal     = "#eeeeee"
 theme.fg_focus      = "#ff6600"
-theme.fg_urgent     = "#0099FF"
+theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#888888"
 
 theme.border_width  = "0"
