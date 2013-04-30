@@ -49,8 +49,9 @@ find -iname '*ttf' -exec cp {} ~/.fonts/ \;
 fc-cache -fv ~/.fonts
 rm -rf ~/.cnsls
 
-cd ~
 mkdir ~/xcompmgr
 cd ~/xcompmgr
 wget http://ftp.ru.debian.org/debian/pool/main/x/xcompmgr/xcompmgr_1.1.5-1_i386.deb
-sudo dpkg -i ~/xcompmgr_1.1.5-1_i386.deb
+sudo dpkg -i xcompmgr_1.1.5-1_i386.deb
+rm -rf ~/xcompmgr
+sudo apt-mark hold xcompmgr
