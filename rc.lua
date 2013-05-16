@@ -58,6 +58,7 @@ layouts =
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.floating,
+    awful.layout.suit.spiral,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
 }
@@ -68,7 +69,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "⠐", "⠡", "⠪", "⠵" }, s, layouts[1])
+    tags[s] = awful.tag({ "⚀", "⚁", "⚂", "⚃", "⚄" }, s, layouts[1])
 end
 -- }}}
 
@@ -193,8 +194,6 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-
-
     awful.key({ modkey }, "b", function ()
         mywibox[mouse.screen].visible = not mywibox[mouse.screen].visible
     end),
@@ -386,6 +385,7 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+awful.util.spawn_with_shell("xinput set-button-map 12 1 2 3 4 5 6 7 8 9")
 awful.util.spawn_with_shell("run_once xcompmgr -r 6 -o 1 -l -8 -t -8 -I 0.03 -O 0.02 -D 2 -cCfF")
 awful.util.spawn_with_shell("sudo " .. os.getenv("HOME") .. "/kbtweaks.sh")
 awful.util.spawn_with_shell("gnome-settings-daemon")
@@ -395,6 +395,6 @@ awful.util.spawn_with_shell("run_once /usr/lib/policykit-1-gnome/polkit-gnome-au
 awful.util.spawn_with_shell("run_once gnome-keyring-daemon")
 awful.util.spawn_with_shell("run_once /usr/bin/ssh-agent /usr/bin/dbus-launch")
 awful.util.spawn_with_shell("run_once synapse")
-awful.util.spawn_with_shell("run_once python /usr/bin/guake")
+awful.util.spawn_with_shell("python /usr/bin/guake")
 
 
