@@ -1,7 +1,0 @@
-[GNOME Session]
-Name=Awesome session
-RequiredComponents=gnome-settings-daemon;
-RequiredProviders=windowmanager;
-DefaultProvider-windowmanager=awesome
-DefaultProvider-notifications=notification-osd
-DesktopName=GNOME
