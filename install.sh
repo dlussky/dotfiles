@@ -36,6 +36,9 @@ ln -s ~/dotfiles/cal.lua ~/.config/awesome/cal.lua
 ln -s ~/dotfiles/rc.lua ~/rc.lua
 
 ln -s ~/dotfiles/kbtweaks.sh ~/kbtweaks.sh
+
+sudo chown root:root ~/kbtweaks.sh
+sudo chmod 744 ~/kbtweaks.sh
 sudo sh -c 'echo "ALL	ALL=NOPASSWD: /home/dlussky/kbtweaks.sh" >> /etc/sudoers'
 
 ln -s ~/dotfiles/.zshrc ~/.zshrc
