@@ -31,11 +31,11 @@ theme.tasklist_floating_icon = "~/.config/awesome/themes/aurantium.custom/taskli
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = "~/.config/awesome/themes/aurantium.custom/submenu.png"
-theme.menu_height = "16"
-theme.menu_width  = "150"
+theme.menu_height = 16
+theme.menu_width  = 150
 
 -- You can use your own command to set your wallpaper
-theme.wallpaper_cmd = { "awsetbg /usr/share/backgrounds/warty-final-ubuntu.png" }
+theme.wallpaper = "/home/dlussky/Pictures/wallpaper.jpg"
 
 -- You can use your own layout icons like this:
 theme.layout_tile = "~/.config/awesome/themes/aurantium.custom/layouts/tile.png"
@@ -43,6 +43,9 @@ theme.layout_tileleft   = "~/.config/awesome/themes/aurantium.custom/layouts/til
 theme.layout_tiletop = "~/.config/awesome/themes/aurantium.custom/layouts/tiletop.png"
 theme.layout_floating  = "~/.config/awesome/themes/aurantium.custom/layouts/floating.png"
 theme.layout_max = "~/.config/awesome/themes/aurantium.custom/layouts/max.png"
+theme.layout_fairh = "~/.config/awesome/themes/aurantium.custom/layouts/fairh.png"
+theme.layout_fairv = "~/.config/awesome/themes/aurantium.custom/layouts/fairv.png"
+theme.layout_spiral = "~/.config/awesome/themes/aurantium.custom/layouts/spiral.png"
 theme.layout_fullscreen = "~/.config/awesome/themes/aurantium.custom/layouts/fullscreen.png"
 
 -- theme.awesome_icon = "~/.config/awesome/icons/awesome16.png"
