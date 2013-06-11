@@ -316,17 +316,21 @@ for i = 1, 9 do
                   end),
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
-                      local tag = awful.tag.gettags(client.focus.screen)[i]
-                      if client.focus and tag then
-                          awful.client.movetotag(tag)
+		      if client.focus then
+                        local tag = awful.tag.gettags(client.focus.screen)[i]
+                        if tag then
+                            awful.client.movetotag(tag)
+		        end
                      end
                   end),
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
-                      local tag = awful.tag.gettags(client.focus.screen)[i]
-                      if client.focus and tag then
+		      if client.focus then
+                      	local tag = awful.tag.gettags(client.focus.screen)[i]
+                      	if tag then
                           awful.client.toggletag(tag)
-                      end
+                      	end
+		      end
                   end))
 end
 
@@ -360,9 +364,13 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "Guake" },
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    { rule = { class = "Opera", type="normal" },
+      properties = { tag = tags[1][2], floating = false } },
+    { rule = { type="dialog" },
+      properties = { floating = true, ontop = true },
+      callback = function (c)
+         awful.placement.centered(c,nil)
+      end },
 }
 -- }}}
 
