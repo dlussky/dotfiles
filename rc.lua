@@ -365,6 +365,7 @@ awful.rules.rules = {
     { rule = { class = "Guake" },
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
     { rule = { class = "Opera", type="normal" },
+      except = {class = "Operapluginwrapper-native" },
       properties = { tag = tags[1][2], floating = false } },
     { rule = { type="dialog" },
       properties = { floating = true, ontop = true },
@@ -449,4 +450,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 awful.util.spawn_with_shell("run_once compton --config ~/dotfiles/compton.config")
 awful.util.spawn_with_shell("sudo ~/kbtweaks.sh")
-awful.util.spawn_with_shell("python /usr/bin/guake")
+awful.util.spawn_with_shell("sleep 1 && python /usr/bin/guake")
