@@ -1,5 +1,5 @@
 [playlist]
-numberofentries=11
+numberofentries=9
 File1=http://212.7.194.133:8128
 Title1=DeepMix.FM
 Length1=-1
