@@ -1,7 +1,7 @@
 605c605
 < #OnSongChange = "/home/jack/.moc/myscript %a %r"
 ---
-> OnSongChange = "~/.moc/onsongchange %f %a %r %t %n %d %D"
+> OnSongChange = "~/.moc/onsongchange"
 612c612
 < #RepeatSongChange = no
 ---

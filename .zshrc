@@ -10,12 +10,17 @@ HISTFILE=~/.history
 SAVEHIST=10000
 HISTSIZE=10000
 
+zstyle ':completion:*:processes' command 'ps -ax' 
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;32'
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:kill:*'   force-list always
+
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-alias mocp='mocp -T transparent-background'
+alias mocp='mocp -T transparent-background -C /home/dlussky/.moc/config'
 alias chmodf='find . -type f -exec chmod 664 {} \;'
 alias chmodd='find . -type d -exec chmod 775 {} \;'
 alias ls="ls -al --color"
