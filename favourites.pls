@@ -1,6 +1,6 @@
 [playlist]
 numberofentries=9
-File1=http://212.7.194.133:8128
+File1=http://217.23.7.117:8128
 Title1=DeepMix.FM
 Length1=-1
 File2=http://rts.fm:8192
