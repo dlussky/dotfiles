@@ -24,8 +24,28 @@ alias mocp='mocp -T transparent-background -C /home/dlussky/.moc/config'
 alias chmodf='find . -type f -exec chmod 664 {} \;'
 alias chmodd='find . -type d -exec chmod 775 {} \;'
 alias ls="ls -al --color"
+alias tree="tree -vaC --dirsfirst"
 
-PS1="%{$bold_color$fg[green]%}%n%{$bold_color$fg[white]%}@%m %{$reset_color$fg[white]%}%~%{$bold_color$fg[white]%}%# %{$reset_color$fg[white]%}"
+setopt prompt_subst
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' stagedstr 'M' 
+zstyle ':vcs_info:*' unstagedstr 'M' 
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' actionformats '%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f'
+zstyle ':vcs_info:*' formats \
+  '%F{grey}[%F{blue}%b%F{grey}] %F{green}%c%F{green}%u%f '
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+zstyle ':vcs_info:*' enable git 
++vi-git-untracked() {
+  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+    git status --porcelain | grep '??' &> /dev/null ; then
+    hook_com[unstaged]+='%F{1}??%f'
+  fi  
+}
+
+precmd () { vcs_info }
+
+PROMPT='%{$bold_color$fg[green]%}%n%{$bold_color$fg[white]%}@%m ${vcs_info_msg_0_}%{$reset_color$fg[white]%}%~%{$bold_color$fg[white]%}%# %{$reset_color$fg[white]%}'
 
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
