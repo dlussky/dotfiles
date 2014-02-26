@@ -45,7 +45,7 @@ zstyle ':vcs_info:*' enable git
 
 precmd () { vcs_info }
 
-PROMPT='%{$bold_color$fg[green]%}%n%{$bold_color$fg[white]%}@%m ${vcs_info_msg_0_}%{$reset_color$fg[white]%}%~%{$bold_color$fg[white]%}%# %{$reset_color$fg[white]%}'
+PROMPT='%{$bold_color$fg[green]%}%n%{$reset_color$fg[white]%}@%m ${vcs_info_msg_0_}%{$reset_color$fg[white]%}%~%{$fg[white]%}%# %{$reset_color$fg[white]%}'
 
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
