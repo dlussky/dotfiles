@@ -8,7 +8,7 @@ local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
-local naughty = require("naughty")
+-- local naughty = require("naughty")
 local menubar = require("menubar")
 
 -- Load Debian menu entries
@@ -19,9 +19,9 @@ local cal = require("cal")
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
+--    naughty.notify({ preset = naughty.config.presets.critical,
+--                     title = "Oops, there were errors during startup!",
+--                     text = awesome.startup_errors })
 end
 
 -- Handle runtime errors after startup
@@ -32,9 +32,9 @@ do
         if in_error then return end
         in_error = true
 
-        naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
-                         text = err })
+--        naughty.notify({ preset = naughty.config.presets.critical,
+--                         title = "Oops, an error happened!",
+--                         text = err })
         in_error = false
     end)
 end
@@ -355,6 +355,8 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { class = "Operapluginwrapper-native" },
       properties = { fullscreen = true, floating = true } },
+    { rule = { class = "Plugin-container" },
+      properties = { fullscreen = true, floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { state = "modal" },
@@ -371,7 +373,10 @@ awful.rules.rules = {
       properties = { floating = true, ontop = true },
       callback = function (c)
          awful.placement.centered(c,nil)
-      end },
+      end },    
+    { rule = { class = "Conky" },
+      properties = { floating = true, maximized_horizontal = true, maximized_vertical = true, sticky = true, below = true, focusable = false  } },
+
 }
 -- }}}
 
