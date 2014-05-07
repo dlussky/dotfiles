@@ -59,6 +59,9 @@ fc-cache -fv ~/.fonts
 rm -rf ~/.cnsls
 
 
+sudo sed -i "s/USE_STYLE=.*/USE_STYLE=\"SHARPENED\"/" /etc/profile.d/infinality-settings.sh
+sudo /etc/fonts/infinality/infctl.sh setstyle linux
+
 #xcompmgr
 
 
