@@ -1,7 +1,9 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-[ -e ~/dotfiles/notifyosd.zsh ] && . ~/dotfiles/notifyosd.zsh
+if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
+	[ -e ~/dotfiles/notifyosd.zsh ] && . ~/dotfiles/notifyosd.zsh
+fi
 
 autoload -U colors && colors
 # don't put duplicate lines or lines starting with space in the history.
@@ -16,7 +18,7 @@ zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*'   force-list always
 
 setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
+#setopt SHARE_HISTORY
 
 alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
