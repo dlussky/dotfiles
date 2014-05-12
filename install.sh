@@ -26,6 +26,11 @@ printf "%s\n" "[Desktop Entry]" "Version=1.0" "Type=Application" "Name=awesome" 
 printf "%s\n" "[Desktop Entry]" "Name=Gnome with Awesome" "Comment=Gnome with Awesome as window manager" "TryExec=gnome-session" "Exec=gnome-session --session=awesome" "Type=Application" | tee /usr/share/xsessions/gnome-awesome.desktop && \
 printf "%s\n" "[GNOME Session]" "Name=Awesome" "RequiredComponents=gnome-settings-daemon;" "RequiredProviders=windowmanager;" "DefaultProvider-windowmanager=awesome" | tee /usr/share/gnome-session/sessions/awesome.session'
 
+
+echo "cat /home/dlussky/dotfiles/rocket.txt" | sudo tee /etc/update-motd.d/15-rocket
+sudo chmod 500 /etc/update-motd.d/
+sudo rm /etc/update-motd.d/10-help-text
+
 #configs (assuming you cloned this repo to ~/dotfiles)
 cp -R /etc/xdg/awesome ~/.config
 mkdir ~/.config/awesome/themes
