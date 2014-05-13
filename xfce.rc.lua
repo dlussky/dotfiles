@@ -3,42 +3,8 @@ local gears = require("gears")
 local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
--- Widget and layout library
---local wibox = require("wibox")
--- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
--- local naughty = require("naughty")
---local menubar = require("menubar")
 
--- Load Debian menu entries
--- local debian_menu = require("debian_menu")
---local cal = require("cal")
-
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
-if awesome.startup_errors then
---    naughty.notify({ preset = naughty.config.presets.critical,
---                     title = "Oops, there were errors during startup!",
---                     text = awesome.startup_errors })
-end
-
--- Handle runtime errors after startup
-do
-    local in_error = false
-    awesome.connect_signal("debug::error", function (err)
-        -- Make sure we don't go into an endless error loop
-        if in_error then return end
-        in_error = true
-
---        naughty.notify({ preset = naughty.config.presets.critical,
---                         title = "Oops, an error happened!",
---                         text = err })
-        in_error = false
-    end)
-end
--- }}}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
@@ -82,40 +48,17 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "⚀", "⚁", "⚂", "⚃", "⚄" }, s, layouts[1])
+    tags[s] = awful.tag({ "1", "2", "3", "4", "5", "6"}, s, layouts[1])
+
+    screen[s]:connect_signal("tag::history::update", function()
+        local masterClient = awful.client.getmaster(1)
+        if (masterClient ~= nil) then
+            client.focus = masterClient
+        end
+    end)
 end
 -- }}}
 
--- {{{ Menu
--- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
-}
-
---mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
---                                    { "Debian", debian_menu.Debian },
---                                    { "open terminal", terminal }
---                                  }
---                        })
-
---mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
---                                     menu = mymainmenu })
-
--- Menubar configuration
---menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
-
--- {{{ Wibox
--- Create a textclock widget
--- cal.register(mytextclock, "<span color='white'><b>%s</b></span>")
-
--- Create a wibox for each screen and add it
-
--- {{{ Mouse bindings
--- }}}
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
@@ -133,7 +76,6 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
---    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -244,7 +186,6 @@ awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
       properties = { border_width = 0,
---                     border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      size_hints_honor = false,
                      keys = clientkeys,
@@ -270,16 +211,11 @@ awful.rules.rules = {
     },
     { rule = { class = "Guake" },
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
-    { rule = { class = "Opera", type="normal" },
-      except = {class = "Operapluginwrapper-native" },
-      properties = { tag = tags[1][2], floating = false } },
     { rule = { type="dialog" },
       properties = { floating = true, ontop = true },
       callback = function (c)
          awful.placement.centered(c,nil)
       end },    
-    { rule = { class = "Conky" },
-      properties = { floating = true, maximized_horizontal = true, maximized_vertical = true, sticky = true, below = true, focusable = false  } },
 
 }
 -- }}}
@@ -353,11 +289,20 @@ client.connect_signal("manage", function (c, startup)
     end
 end)
 
---client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
---client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
+
+autoraise_target = nil
+autoraise_timer = timer { timeout = 0.3 }
+autoraise_timer:connect_signal("timeout", function()
+  if autoraise_target then autoraise_target:raise() end
+  autoraise_timer:stop()
+end)
+client.connect_signal("mouse::enter", function(c)
+  autoraise_target = c
+  autoraise_timer:again()
+end)
+client.connect_signal("mouse::leave", function(c)
+  if autoraise_target == c then autoraise_target = nil end
+end)
 
 awful.util.spawn_with_shell("run_once compton --config ~/dotfiles/compton.config")
--- awful.util.spawn_with_shell("sleep 5 && run_once launchy")
-awful.util.spawn_with_shell("sleep 7 && sudo /usr/bin/kbtweaks")
-awful.util.spawn_with_shell("sleep 5 && python /usr/bin/guake")
+awful.util.spawn_with_shell("sleep 1 && python /usr/bin/guake")
