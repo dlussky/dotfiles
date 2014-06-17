@@ -22,10 +22,10 @@ setopt INC_APPEND_HISTORY
 
 alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-alias mocp='mocp -T transparent-background -C /home/dlussky/.moc/config'
+alias mocp='[ "$SSH_CLIENT" = "" ] && mocp -T transparent-background -C /home/dlussky/.moc/config'
 alias chmodf='find . -type f -exec chmod 664 {} \;'
 alias chmodd='find . -type d -exec chmod 775 {} \;'
-alias ls="ls -al --color"
+alias ls="ls -lah --color"
 alias tree="tree -vaC --dirsfirst"
 
 setopt prompt_subst
