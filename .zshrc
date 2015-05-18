@@ -12,6 +12,11 @@ HISTFILE=~/.history
 SAVEHIST=10000
 HISTSIZE=10000
 
+
+source .dir_colors
+
+
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:processes' command 'ps -ax' 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;32'
 zstyle ':completion:*:*:kill:*' menu yes select
@@ -19,6 +24,7 @@ zstyle ':completion:*:kill:*'   force-list always
 
 setopt INC_APPEND_HISTORY
 #setopt SHARE_HISTORY
+setopt HIST_IGNORE_SPACE
 
 alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
@@ -47,7 +53,11 @@ zstyle ':vcs_info:*' enable git
 
 precmd () { vcs_info }
 
-PROMPT='%{$bold_color$fg[green]%}%n%{$reset_color$fg[white]%}@%m ${vcs_info_msg_0_}%{$reset_color$fg[white]%}%~%{$fg[white]%}%# %{$reset_color$fg[white]%}'
+PROMPT='%{$fg_bold[green]%}%n%{$fg_no_bold[white]%}@%m ${vcs_info_msg_0_}%{$fg[white]%}%~ %{$fg[green]%}𝄞 %{$reset_color%}'
 
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
+
+if [ -d "$HOME/.composer/vendor/bin" ] ; then
+  PATH="$HOME/.composer/vendor/bin:$PATH"
+fi
