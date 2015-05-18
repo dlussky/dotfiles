@@ -5,10 +5,31 @@ awful.rules = require("awful.rules")
 require("awful.autofocus")
 local beautiful = require("beautiful")
 
-
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/aurantium.custom/theme.lua")
+
+-- another config (This code will only ever execute for the fallback config)
+if awesome.startup_errors then
+    naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "Oops, there were errors during startup!",
+                     text = awesome.startup_errors })
+end
+
+-- Handle runtime errors after startup
+do
+    local in_error = false
+    awesome.connect_signal("debug::error", function (err)
+        -- Make sure we don't go into an endless error loop
+        if in_error then return end
+        in_error = true
+
+        naughty.notify({ preset = naughty.config.presets.critical,
+                         title = "Oops, an error happened!",
+                         text = err })
+        in_error = false
+    end)
+end
 
 -- This is used later as the default terminal and editor to run.
 terminal = "guake"
@@ -32,6 +53,7 @@ local layouts =
     awful.layout.suit.fair,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -45,17 +67,41 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
+
+
+
+autofocus_timer = timer { timeout = 0.1 }
+autofocus_timer:connect_signal("timeout", function()
+  autofocus_timer:stop()
+  local focusedClient = client.focus
+  if (focusedClient ~= nil) then
+    if (focusedClient.name == "xfce4-panel") or (focusedClient.class == "Xfdesktop") or (focusedClient.name == "xfce4-nofityd") then
+      local c = awful.client.getmaster()
+      if (c == nil) then
+        c = awful.client.focus.byidx(1)
+      end
+      if c then
+        client.focus = c
+        c:raise()
+      end
+    end
+  end
+end)
+
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag({ "1", "2", "3", "4", "5", "6"}, s, layouts[1])
 
-    screen[s]:connect_signal("tag::history::update", function()
-        local masterClient = awful.client.getmaster(1)
-        if (masterClient ~= nil) then
-            client.focus = masterClient
-        end
-    end)
+    for t = 1, 6 do
+       tags[s][t]:connect_signal("property::selected", function() 
+          local tag = awful.tag.selected();
+          if (tag ~= nil) then 
+            -- guileful xfce minions hadn't stolen the focus yet, we need to wait
+            autofocus_timer:again()
+          end
+        end)
+    end
 end
 -- }}}
 
@@ -113,7 +159,7 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey, "Shift"   }, "c",      function (c) if (c.name ~= "xfce4-panel") then c:kill() end end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
@@ -122,7 +168,7 @@ clientkeys = awful.util.table.join(
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
+            if (c.name ~= "xfce4-panel") then c.minimized = true end
         end),
     awful.key({ modkey,           }, "m",
         function (c)
@@ -190,8 +236,9 @@ awful.rules.rules = {
                      size_hints_honor = false,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { class = "Operapluginwrapper-native" },
-      properties = { fullscreen = true, floating = true } },
+    { rule = { class = "Skype" },
+      properties = { focusable = true },
+      callback = awful.placement.centered },
     { rule = { class = "Plugin-container" },
       properties = { fullscreen = true, floating = true } },
     { rule = { class = "pinentry" },
@@ -199,10 +246,20 @@ awful.rules.rules = {
     { rule = { state = "modal" },
       properties = { floating = true, ontop = true },
       callback = awful.placement.centered },
+    { rule = { type="dialog" },
+      properties = { floating = true, ontop = true },
+      callback = awful.placement.centered },
     { rule = { class = "Xfce4-settings-manager" },
       properties = { ontop = false, floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
+    { rule = { class = "Xfce4-appfinder" },
+      properties = { floating = true, ontop = true },
+      callback = awful.placement.centered },
+    { rule = { class = "Update-manager" },
+      properties = { floating = true, ontop = true },
+      callback = awful.placement.centered },
+    { rule = { class = "Xfce4-notifyd" },
+      properties = { focusable = false } },
+
     { rule = { name = "Whisker Menu" },
       properties = { floating = true, ontop = true },
       callback = function( c )
@@ -211,11 +268,9 @@ awful.rules.rules = {
     },
     { rule = { class = "Guake" },
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
-    { rule = { type="dialog" },
-      properties = { floating = true, ontop = true },
-      callback = function (c)
-         awful.placement.centered(c,nil)
-      end },    
+
+    { rule = { class = "Xfdesktop" },
+      properties = { sticky = true, focusable = false } },
 
 }
 -- }}}
@@ -242,67 +297,23 @@ client.connect_signal("manage", function (c, startup)
             awful.placement.no_offscreen(c)
         end
     end
-
-    local titlebars_enabled = false
-    if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
-        -- buttons for the titlebar
-        local buttons = awful.util.table.join(
-                awful.button({ }, 1, function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.move(c)
-                end),
-                awful.button({ }, 3, function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.resize(c)
-                end)
-                )
-
-        -- Widgets that are aligned to the left
-        local left_layout = wibox.layout.fixed.horizontal()
-        left_layout:add(awful.titlebar.widget.iconwidget(c))
-        left_layout:buttons(buttons)
-
-        -- Widgets that are aligned to the right
-        local right_layout = wibox.layout.fixed.horizontal()
-        right_layout:add(awful.titlebar.widget.floatingbutton(c))
-        right_layout:add(awful.titlebar.widget.maximizedbutton(c))
-        right_layout:add(awful.titlebar.widget.stickybutton(c))
-        right_layout:add(awful.titlebar.widget.ontopbutton(c))
-        right_layout:add(awful.titlebar.widget.closebutton(c))
-
-        -- The title goes in the middle
-        local middle_layout = wibox.layout.flex.horizontal()
-        local title = awful.titlebar.widget.titlewidget(c)
-        title:set_align("center")
-        middle_layout:add(title)
-        middle_layout:buttons(buttons)
-
-        -- Now bring it all together
-        local layout = wibox.layout.align.horizontal()
-        layout:set_left(left_layout)
-        layout:set_right(right_layout)
-        layout:set_middle(middle_layout)
-
-        awful.titlebar(c):set_widget(layout)
-    end
 end)
 
 
 autoraise_target = nil
-autoraise_timer = timer { timeout = 0.3 }
+autoraise_timer = timer { timeout = 0.4 }
 autoraise_timer:connect_signal("timeout", function()
-  if autoraise_target then autoraise_target:raise() end
   autoraise_timer:stop()
+  pcall(function ()  if (autoraise_target and autoraise_target.focusable and autoraise_target.class ~= 'Xfce4-panel') then autoraise_target:raise() end end)
+  autoraise_target = nil
 end)
 client.connect_signal("mouse::enter", function(c)
-  autoraise_target = c
-  autoraise_timer:again()
+  if not (c.ontop) then
+    autoraise_target = c
+    autoraise_timer:again()
+  end
 end)
 client.connect_signal("mouse::leave", function(c)
-  if autoraise_target == c then autoraise_target = nil end
+  autoraise_timer:stop()
+  if autoraise_target ~= nil then autoraise_target = nil end
 end)
-
-awful.util.spawn_with_shell("run_once compton --config ~/dotfiles/compton.config")
-awful.util.spawn_with_shell("sleep 1 && python /usr/bin/guake")
