@@ -28,6 +28,7 @@ setopt HIST_IGNORE_SPACE
 
 alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+alias tm='tmux a'
 alias mocp='[ "$SSH_CLIENT" = "" ] && mocp -T transparent-background -C /home/dlussky/.moc/config'
 alias chmodf='find . -type f -exec chmod 664 {} \;'
 alias chmodd='find . -type d -exec chmod 775 {} \;'
