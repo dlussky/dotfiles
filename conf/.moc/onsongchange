@@ -1,0 +1,4 @@
+#!/bin/bash
+export DISPLAY=:0.0
+export XAUTHORITY=/home/pawian/.Xauthority
+notify-send -t 4000 -i sound "$(mocp -Q '%song')" "$(mocp -Q '%album by %artist (%file)' | sed -e 's/&/&amp;/' | sed -e 's/ (http.*#\(.*\))/\1/' | sed -e 's/ (\/.*)//')"

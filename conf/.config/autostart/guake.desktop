@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=sh -c "sleep 5 && guake"
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[en_US]=Guake
+Name=Guake
+Comment[en_US]=
+Comment=

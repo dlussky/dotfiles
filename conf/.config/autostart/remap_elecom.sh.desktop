@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=~/dorfiles/remap_elecom.sh
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[en_US]=remap elecom trackball buttons
+Name=remap elecom trackball buttons
+Comment[en_US]=
+Comment=

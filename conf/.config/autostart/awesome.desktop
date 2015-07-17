@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=awesome
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[en_US]=Awesome
+Name=Awesome
+Comment[en_US]=Awesome window manager
+Comment=Awesome window manager

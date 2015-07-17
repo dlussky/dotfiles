@@ -1,0 +1,3 @@
+[submodule "guake-solarized"]
+	path = guake-solarized
+	url = git@github.com:dlussky/guake-colors-solarized.git

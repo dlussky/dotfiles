@@ -266,11 +266,13 @@ awful.rules.rules = {
            c:geometry( { width = 400 , height = 600, x = 0, y = 480 } )
       end 
     },
-    { rule = { class = "Guake" },
+    { rule = { class = "Main.py" },
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
 
     { rule = { class = "Xfdesktop" },
       properties = { sticky = true, focusable = false } },
+    { rule = { class = "Clock-applet" },
+      properties = { sticky = true, ontop = true } },
 
 }
 -- }}}

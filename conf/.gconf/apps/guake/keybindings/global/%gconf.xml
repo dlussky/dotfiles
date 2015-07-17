@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="show_hide" mtime="1436672643" schema="/schemas/apps/guake/keybindings/global/show_hide" type="string">
+		<stringvalue>&lt;Alt&gt;grave</stringvalue>
+	</entry>
+</gconf>

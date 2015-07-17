@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Windows 8
+Icon=/usr/share/icons/Numix-Square/scalable/apps/xfsm-reboot.svg
+Exec="/usr/bin/windows"
+Comment=Reboot to windows
+Categories=System;
+Terminal=false

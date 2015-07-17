@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=mocp -S
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[en_US]=MOC server
+Name=MOC server
+Comment[en_US]=Music On Console standalone server
+Comment=Music On Console standalone server

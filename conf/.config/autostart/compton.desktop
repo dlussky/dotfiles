@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=compton
+Hidden=false
+X-MATE-Autostart-enabled=true
+Name[en_US]=Compton
+Name=Compton
+Comment[en_US]=compositor for X11, based on xcompmgr
+Comment=compositor for X11, based on xcompmgr
