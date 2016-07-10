@@ -4,5 +4,5 @@
 	<entry name="color" mtime="1436990772" schema="/schemas/apps/guake/style/background/color" type="string">
 		<stringvalue>#0000104f147b</stringvalue>
 	</entry>
-	<entry name="transparency" mtime="1436990716" schema="/schemas/apps/guake/style/background/transparency" type="int" value="10"/>
+	<entry name="transparency" mtime="1452278793" schema="/schemas/apps/guake/style/background/transparency" type="int" value="10"/>
 </gconf>
