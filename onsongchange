@@ -1,4 +1,0 @@
-#!/bin/bash
-export DISPLAY=:0.0
-export XAUTHORITY=/home/pawian/.Xauthority
-notify-send -t 10000 -i /usr/share/icons/Humanity/emblems/48/emblem-sound.svg "$(mocp -Q '%song')" "$(mocp -Q '%file' | sed 's/http:\/\///g')"

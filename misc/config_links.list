@@ -1,0 +1,10 @@
+.config/autostart/awesome
+.config/autostart/mocp
+.config/awesome
+.config/mc
+.config/compton.conf
+.config/redshift.conf
+.local/share/icons/flags
+.local/share/mc/skins
+.moc
+.zshrc	

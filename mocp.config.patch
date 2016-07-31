@@ -1,8 +1,0 @@
-605c605
-< #OnSongChange = "/home/jack/.moc/myscript %a %r"
----
-> OnSongChange = "~/.moc/onsongchange"
-612c612
-< #RepeatSongChange = no
----
-> RepeatSongChange = yes

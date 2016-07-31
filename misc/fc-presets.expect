@@ -1,0 +1,6 @@
+spawn fc-presets set
+expect "Enter your choice..."
+send "4\r"
+expect "Enter your choice..."
+send "2\r"
+expect eof

@@ -75,7 +75,7 @@ autofocus_timer:connect_signal("timeout", function()
   autofocus_timer:stop()
   local focusedClient = client.focus
   if (focusedClient ~= nil) then
-    if (focusedClient.name == "xfce4-panel") or (focusedClient.class == "Xfdesktop") or (focusedClient.name == "xfce4-nofityd") then
+    if (focusedClient.class == "Mate-panel") or (focusedClient.class == "Mate-notification-daemon") then
       local c = awful.client.getmaster()
       if (c == nil) then
         c = awful.client.focus.byidx(1)
@@ -97,7 +97,7 @@ for s = 1, screen.count() do
        tags[s][t]:connect_signal("property::selected", function() 
           local tag = awful.tag.selected();
           if (tag ~= nil) then 
-            -- guileful xfce minions hadn't stolen the focus yet, we need to wait
+            -- guileful mate minions hadn't stolen the focus yet, we need to wait
             autofocus_timer:again()
           end
         end)
@@ -159,7 +159,7 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) if (c.name ~= "xfce4-panel") then c:kill() end end),
+    awful.key({ modkey, "Shift"   }, "c",      function (c) if (c.class ~= "Mate-panel") then c:kill() end end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
@@ -168,7 +168,7 @@ clientkeys = awful.util.table.join(
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
-            if (c.name ~= "xfce4-panel") then c.minimized = true end
+            if (c.class ~= "Mate-panel") then c.minimized = true end
         end),
     awful.key({ modkey,           }, "m",
         function (c)
@@ -249,28 +249,17 @@ awful.rules.rules = {
     { rule = { type="dialog" },
       properties = { floating = true, ontop = true },
       callback = awful.placement.centered },
-    { rule = { class = "Xfce4-settings-manager" },
-      properties = { ontop = false, floating = true } },
-    { rule = { class = "Xfce4-appfinder" },
-      properties = { floating = true, ontop = true },
-      callback = awful.placement.centered },
     { rule = { class = "Update-manager" },
       properties = { floating = true, ontop = true },
       callback = awful.placement.centered },
-    { rule = { class = "Xfce4-notifyd" },
+    { rule = { class = "Mate-notification-daemon" },
       properties = { focusable = false } },
-
-    { rule = { name = "Whisker Menu" },
-      properties = { floating = true, ontop = true },
-      callback = function( c )
-           c:geometry( { width = 400 , height = 600, x = 0, y = 480 } )
-      end 
-    },
-    { rule = { class = "Guake" },
+    { rule = { class = "Main.py" },
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
-
-    { rule = { class = "Xfdesktop" },
-      properties = { sticky = true, focusable = false } },
+    { rule = { class = "Clock-applet" },
+      properties = { sticky = true, ontop = true } },
+    { rule = { class = "crx_bgfgmpeanklkbdkepmdekdamneogmdnp" },
+      properties = { ontop = true } },
 
 }
 -- }}}
@@ -304,7 +293,7 @@ autoraise_target = nil
 autoraise_timer = timer { timeout = 0.4 }
 autoraise_timer:connect_signal("timeout", function()
   autoraise_timer:stop()
-  pcall(function ()  if (autoraise_target and autoraise_target.focusable and autoraise_target.class ~= 'Xfce4-panel') then autoraise_target:raise() end end)
+  pcall(function ()  if (autoraise_target and autoraise_target.focusable and autoraise_target.class ~= 'Mate-panel') then autoraise_target:raise() end end)
   autoraise_target = nil
 end)
 client.connect_signal("mouse::enter", function(c)
@@ -317,3 +306,4 @@ client.connect_signal("mouse::leave", function(c)
   autoraise_timer:stop()
   if autoraise_target ~= nil then autoraise_target = nil end
 end)
+
