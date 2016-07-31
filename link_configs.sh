@@ -6,17 +6,18 @@ IFS=$'\n\t'
 while read lnk; do
 	src="conf/$lnk"
 	dst="$HOME/$lnk"
-	echo $src -> $dst
-	if [ -a "$src" ]
+	echo $src will be linked to $dst
+	if [ -e "$src" ]
 	then
-		if [ -a "$dst" ]
+		if [ -e "$dst" ]
 		then
 			echo dst already exists
 		else
 			parentdir="$(dirname "$dst")"
 			mkdir -p "$parentdir"
-            
-            ln -s "$(pwd)/$src" "$dst"
+
+			ln -s "$(pwd)/$src" "$dst"
+			echo done
 		fi
 	else
 		echo src does not exists
