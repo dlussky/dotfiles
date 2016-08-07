@@ -258,8 +258,8 @@ awful.rules.rules = {
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
     { rule = { class = "Clock-applet" },
       properties = { sticky = true, ontop = true } },
-    { rule = { class = "crx_bgfgmpeanklkbdkepmdekdamneogmdnp" },
-      properties = { ontop = true } },
+    { rule = { class = "desktop_window" },
+      properties = { sticky = true } },
 
 }
 -- }}}
