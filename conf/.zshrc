@@ -6,8 +6,6 @@ if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
 	[ -e ~/dotfiles/misc/notifyosd.zsh ] && . ~/dotfiles/misc/notifyosd.zsh
 fi
 
-
-
 source ~/dotfiles/misc/dir_colors.zsh
 
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
@@ -66,7 +64,8 @@ alias tm='tmux a'
 alias mocp='[ "$SSH_CLIENT" = "" ] && mocp -T transparent-background -C /home/dlussky/.moc/config'
 alias chmodf='find . -type f -exec chmod 664 {} \;'
 alias chmodd='find . -type d -exec chmod 775 {} \;'
-alias ls="ls -lah --color"
+alias ll='ls -laFh --group-directories-first --color'
+alias l='ll'
 alias tree="tree -vaC --dirsfirst"
 
 function merge() {
