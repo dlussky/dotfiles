@@ -1,0 +1,89 @@
+#!/bin/bash
+########################################
+# Settings                             #
+########################################
+
+card=1;           # Sound card. 0 == default, first card.
+channel="PCM"; # Which volume to control. Examples: Master, PCM, Headphone
+step=3;           # Fade step: The volume increment/decrement amount
+interval=0.2      # Seconds between increments/decrements when fading
+lockdelay=0.5     # How long wait between unlock checks. Smaller values unmute faster
+# but use more CPU used when locked.
+
+########################################
+# Functions                            #
+########################################
+
+# get current volume
+function getvol {
+    vol=$( ${m} sget ${channel} | awk '
+$0 ~ "%" { 
+    if ($4 ~ "%") {
+        print $3;
+    } else if ($5 ~ "%") { 
+    print $4;
+    exit 0;
+    }
+}' )
+}
+
+# fades volume up or down
+function fade {
+    # get current volume
+    getvol
+    if [ "$1" == "down" ]; then
+        # fade down:
+        while [ ${vol} -gt 0 ]; do
+            sleep ${interval}
+            ${m} set ${channel} ${step}- >/dev/null
+            let vol-=${step}
+        done
+        ${m} set ${channel} mute >/dev/null
+   else
+       # first unmute, then fade up
+        ${m} set ${channel} unmute >/dev/null
+         while [ ${orig} -gt ${vol} ]; do
+            sleep ${interval}
+            let vol+=${step}
+            if [ ${vol} -gt ${orig} ]; then vol=${orig}; fi
+            ${m} set ${channel} ${step}+ >/dev/null
+        done
+        ${m} set ${channel} ${orig} >/dev/null
+   fi
+}
+
+# Returns when the screen has been locked and unlocked
+function unlockcheck {
+    haslock=
+    while true; do
+        sleep ${lockdelay}
+        locked=$( mate-screensaver-command -q | grep " active" )
+        if [ -n "${haslock}" ]; then
+            # lock has happened before. Check unlock and break if unlocked
+            if [ -z "${locked}" ]; then break; fi
+        fi
+        if [ -n "${locked}" ]; then
+            haslock="true"
+        fi
+    done
+}
+
+########################################
+# Startup                              #
+########################################
+
+# short mixer command with card
+m="amixer -c ${card}"
+# record original volume value
+getvol
+orig=$vol
+
+########################################
+# Procedure                            #
+########################################
+
+mate-screensaver-command -l # lock screen
+fade down # fade volume down and mute
+unlockcheck # wait for unlock
+fade up # fade volume up and unmute
+# That's it!
