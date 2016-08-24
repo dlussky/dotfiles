@@ -14,7 +14,7 @@ sudo add-apt-repository -y ppa:flexiondotorg/albert
 
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get -yV install virtualbox autossh compton mc guake albert php php-cli doublecmd-gtk sublime-text filezilla cabextract moc zsh tmux htop build-essential checkinstall openssh-server expect screenfetch numix-icon-theme
+sudo apt-get -yV install redshift-gtk qbittorrent skype keepass2 virtualbox autossh compton mc guake albert php php-cli doublecmd-gtk sublime-text filezilla cabextract moc zsh tmux htop build-essential checkinstall openssh-server expect screenfetch numix-icon-theme
 
 #freetype build-dep
 #sudo apt-get -y install fontconfig fontconfig-config libcairo-gobject2 libcairo-gobject2:i386 libcairo-script-interpreter2 libcairo2 libcairo2:i386 libcairo2-dev libfontconfig1 libfontconfig1:i386 libfontconfig1-dev libfreetype6:i386 libfreetype6 libfreetype6-dev
