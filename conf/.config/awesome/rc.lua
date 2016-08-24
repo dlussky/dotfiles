@@ -257,11 +257,11 @@ awful.rules.rules = {
       callback = awful.placement.centered },
     { rule = { class = "Mate-notification-daemon" },
       properties = { focusable = false } },
-    { rule = { class = "Main.py" },
+    { rule = { name = "Guake!" },
       properties = { maximized_vertical = true, maximized_horizontal = true, floating = true, sticky = true } },
     { rule = { class = "Clock-applet" },
       properties = { sticky = true, ontop = true } },
-    { rule = { class = "desktop_window" },
+    { rule = { name = "x-caja-desktop" },
       properties = { sticky = true } },
 
 }
