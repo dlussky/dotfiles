@@ -6,31 +6,33 @@ theme = {}
 
 theme.font          = "Ubuntu 10"
 
-theme.bg_normal     = "#000000"
-theme.bg_focus      = "#000000"
+theme.bg_normal     = "#2d2d2d"
+theme.bg_focus      = "#2d2d2d"
 theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#000000"
+theme.bg_minimize   = "#2d2d2d"
+theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#eeeeee"
-theme.fg_focus      = "#ff6600"
+theme.fg_normal     = "#aaaaaa"
+theme.fg_focus      = "#ffffff"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#888888"
 
+theme.useless_gap = 0
 theme.border_width  = "0"
 theme.border_normal = "#000000"
 theme.border_focus  = "#888888"
 theme.border_marked = "#ff6600"
 
 -- Display the taglist squares
-theme.taglist_squares_sel   = "~/.config/awesome/themes/aurantium.custom/taglist/square_a.png"
-theme.taglist_squares_unsel = "~/.config/awesome/themes/aurantium.custom/taglist/square_b.png"
+theme.taglist_squares_sel   = "@AWESOME_THEMES_PATH@/aurantium.custom/taglist/square_a.png"
+theme.taglist_squares_unsel = "@AWESOME_THEMES_PATH@/aurantium.custom/taglist/square_b.png"
 
-theme.tasklist_floating_icon = "~/.config/awesome/themes/aurantium.custom/tasklist/maximized.png"
+theme.tasklist_floating_icon = "@AWESOME_THEMES_PATH@/aurantium.custom/tasklist/maximized.png"
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_submenu_icon = "~/.config/awesome/themes/aurantium.custom/submenu.png"
+theme.menu_submenu_icon = "@AWESOME_THEMES_PATH@/aurantium.custom/submenu.png"
 theme.menu_height = 16
 theme.menu_width  = 150
 
