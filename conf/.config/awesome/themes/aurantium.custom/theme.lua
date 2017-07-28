@@ -4,10 +4,10 @@
 
 theme = {}
 
-theme.font          = "Ubuntu 10"
+theme.font          = "UbuntuCondenced 12"
 
-theme.bg_normal     = "#2d2d2d"
-theme.bg_focus      = "#2d2d2d"
+theme.bg_normal     = "#000000"
+theme.bg_focus      = "#000000"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#2d2d2d"
 theme.bg_systray    = theme.bg_normal
@@ -20,7 +20,7 @@ theme.fg_minimize   = "#888888"
 theme.useless_gap = 0
 theme.border_width  = "0"
 theme.border_normal = "#000000"
-theme.border_focus  = "#888888"
+theme.border_focus  = "#222222"
 theme.border_marked = "#ff6600"
 
 -- Display the taglist squares
