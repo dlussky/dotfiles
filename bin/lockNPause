@@ -1,0 +1,28 @@
+#!/bin/bash
+
+LOCK_CHECK_DELAY=0.5
+SCREENSAVER_COMMAND=mate-screensaver-command
+
+function wait_for_unlock {
+    haslock=
+    while true; do
+        sleep ${LOCK_CHECK_DELAY}
+        locked=$( $SCREENSAVER_COMMAND -q | grep " active" )
+        if [ -n "${haslock}" ]; then
+            # lock has happened before. Check unlock and break if unlocked
+            if [ -z "${locked}" ]; then break; fi
+        fi
+        if [ -n "${locked}" ]; then
+            haslock="true"
+        fi
+    done
+}
+
+
+mocp -P
+$SCREENSAVER_COMMAND --lock
+sleep 3
+xset dpms force off
+wait_for_unlock
+mocp -U
+
