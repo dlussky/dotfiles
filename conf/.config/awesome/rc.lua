@@ -4,7 +4,9 @@ local awful     = require("awful")
 local wibox     = require("wibox")
 local beautiful = require("beautiful")
 
-require("awful.autofocus")
+local autofocus = require("awful.autofocus")
+
+local lain      = require("lain")
 
 local handle_errors = false
 if (handle_errors) then
@@ -51,12 +53,18 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
+
+
+lain.layout.termfair.center.nmaster = 3
+lain.layout.termfair.center.ncol    = 1
+
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts =
 {
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.fair,
+    lain.layout.termfair.center,
     -- awful.layout.suit.floating,
     -- awful.layout.suit.tile,
     -- awful.layout.suit.tile.left,
@@ -85,10 +93,14 @@ autoraise_exceptions = { "Mate-panel"}
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 awful.screen.connect_for_each_screen(function(s)
-    screen[s].padding = {left=0,top=0,right=0,bottom=28}
-    screen[s].workarea = {x=0,y=0,width=1920,height=1052}
+--    screen[s].padding = {left=0,top=0,right=0,bottom=28}
+--    screen[s].workarea = {x=0,y=0,width=1920,height=1052}
     -- Each screen has its own tag table.
     awful.tag({ 1, 2, 3, 4, 5, 6 }, s, awful.layout.layouts[1])
+    -- awful.layout.set(awful.layout.suit.tile, awful.tag.find_by_name(s, "1"))
+    -- awful.layout.set(awful.layout.suit.tile, awful.tag.find_by_name(s, "2"))
+    -- awful.tag.setmwfact(0.75, awful.tag.find_by_name(s, "1"))
+    -- awful.tag.setmwfact(0.75, awful.tag.find_by_name(s, "2"))
 end)
 -- }}}
 
@@ -164,6 +176,14 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
+    awful.key({ modkey, "Shift" }, "m",
+        function (c)
+          c.maximized = false
+          c.maximized_vertical=false
+          c.maximized_horizontal=false
+          c:raise()
+        end ,
+    {description = "demaximize", group = "client"}),
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      
         function (c) 
@@ -322,32 +342,31 @@ awful.rules.rules = {
     { rule = { class = "Mate-notification-daemon" },
       properties = { focusable = false } },
     { rule = { class = "Mate-panel" },
-      properties = { focusable = false, dockable = true },
+      properties = { focusable = false },
       callback = function( c )
-        awful.placement.bottom_left(c, { honor_workarea = false })
+        local move_timer = gears.timer({ timeout = 0.1 })
+        move_timer:connect_signal("timeout", function()
+          if not (c == nil) then
+            awful.placement.bottom_left(c, { honor_workarea = false, honor_padding = false });
+          end
+          move_timer:stop()
+        end)
+        move_timer:start()
       end
-    },
-    { rule = { name = "Guake!" },
+   },
+    { rule = { class = "Tilix" },
       properties = { 
         floating = true, 
-        sticky = true 
+        sticky = true,
+	maximized = false,
+	maximized_vertical = false,
+	maximized_horizontal = false
       } 
     },
     { rule = { class = "Clock-applet" },
       properties = { sticky = true, ontop = true } },
     { rule = { name = "x-caja-desktop" },
       properties = { sticky = true, focusable = false } },
-    { rule_any = {name = { "Twitch" }, {class="twitch"}},
-      properties = { 
-        sticky = true, 
-        ontop=true, 
-        floating = true,
-        focusable = false
-      },
-      callback = function( c )
-        c:geometry({ x = 1320, y = 716, width = 600 , height = 340 })
-      end
-    },
 }
 -- }}}
 
@@ -357,7 +376,11 @@ awful.rules.rules = {
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
+
+    -- c.maximized_vertical = false
+    -- c.maximized_horizontal = false
+    -- c.floating = false
 
     if awesome.startup and
       not c.size_hints.user_position
@@ -398,10 +421,6 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         { -- Right
-            -- awful.titlebar.widget.floatingbutton (c),
-            -- awful.titlebar.widget.maximizedbutton(c),
-            -- awful.titlebar.widget.stickybutton   (c),
-            -- awful.titlebar.widget.ontopbutton    (c),
             awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal(),
         },
@@ -428,6 +447,7 @@ autoraise_timer:connect_signal("timeout", function()
   end)
   autoraise_target = nil
 end)
+
 client.connect_signal("mouse::enter", function(c)
   -- print('autoraise_enter')
   if not c.ontop then
@@ -435,6 +455,7 @@ client.connect_signal("mouse::enter", function(c)
     autoraise_timer:again()
   end
 end)
+
 client.connect_signal("mouse::leave", function(c)
   -- print('autoraise_leave')
   if autoraise_timer.started then
@@ -445,3 +466,12 @@ client.connect_signal("mouse::leave", function(c)
   end
 end)
 --- }}}
+
+-- {{{ Mouse-following focus
+client.connect_signal("mouse::enter", function(c)
+    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+        and awful.client.focus.filter(c) then
+        client.focus = c
+    end
+end)
+-- }}}
