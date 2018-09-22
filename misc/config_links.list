@@ -4,6 +4,9 @@
 .config/mc
 .config/compton.conf
 .config/redshift.conf
+.config/tilix
+.config/zsh
+.config/oh-my-zsh
 .local/share/icons/flags
 .local/share/mc/skins
 .moc
