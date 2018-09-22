@@ -350,9 +350,9 @@ awful.rules.rules = {
       properties = { 
         floating = true, 
         sticky = true,
-	maximized = false,
-	maximized_vertical = false,
-	maximized_horizontal = false
+        maximized = false,
+        maximized_vertical = false,
+        maximized_horizontal = false
       } 
     },
     { rule = { class = "Clock-applet" },
