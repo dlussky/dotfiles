@@ -6,8 +6,6 @@ local beautiful = require("beautiful")
 
 local autofocus = require("awful.autofocus")
 
-local lain      = require("lain")
-
 local handle_errors = false
 if (handle_errors) then
   local naughty   = require("naughty")
@@ -53,18 +51,12 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
-
-
-lain.layout.termfair.center.nmaster = 3
-lain.layout.termfair.center.ncol    = 1
-
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts =
 {
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.fair,
-    lain.layout.termfair.center,
     -- awful.layout.suit.floating,
     -- awful.layout.suit.tile,
     -- awful.layout.suit.tile.left,
@@ -364,9 +356,22 @@ awful.rules.rules = {
       } 
     },
     { rule = { class = "Clock-applet" },
-      properties = { sticky = true, ontop = true } },
+      properties = { sticky = true, ontop = true },
+      callback = function( c )
+        local move_timer = gears.timer({ timeout = 0.1 })
+        move_timer:connect_signal("timeout", function()
+          if not (c == nil) then
+            awful.placement.bottom_right(c, { honor_workarea = true, honor_padding = true });
+          end
+          move_timer:stop()
+        end)
+        move_timer:start()
+      end
+    },
     { rule = { name = "x-caja-desktop" },
       properties = { sticky = true, focusable = false } },
+    { rule = { class = "TelegramDesktop" },
+      properties = { minimized = false } },
 }
 -- }}}
 
