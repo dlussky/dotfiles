@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-ALBERT_VERSION="v0.14.14"
+ALBERT_VERSION="v0.14.21"
 
 SRC_DIR=/tmp/albert_src
 BUILD_DIR=/tmp/albert_build
@@ -15,7 +15,7 @@ git -C $SRC_DIR checkout $ALBERT_VERSION
 mkdir $BUILD_DIR
 cd $BUILD_DIR
 
-cmake $SRC_DIR -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_VIRTUALBOX=Off
+cmake $SRC_DIR -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_VIRTUALBOX=Off -DBUILD_QUALCULATE=Off
 make
 sudo make install
 
