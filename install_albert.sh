@@ -2,12 +2,12 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-ALBERT_VERSION="v0.14.21"
+ALBERT_VERSION="v0.16.1"
 
 SRC_DIR=/tmp/albert_src
 BUILD_DIR=/tmp/albert_build
 
-sudo apt-get install -y g++ cmake qtbase5-dev libqt5x11extras5-dev libqt5svg5-dev libmuparser-dev qtdeclarative5-dev python3-dev 
+sudo apt-get install -y g++ cmake qtbase5-dev libqt5x11extras5-dev libqt5svg5-dev libmuparser-dev qtdeclarative5-dev python3-dev libqt5charts5-dev libqt5sql5-sqlite
 
 git clone --recursive https://github.com/ManuelSchneid3r/albert.git $SRC_DIR
 git -C $SRC_DIR checkout $ALBERT_VERSION
