@@ -1,11 +1,15 @@
 #!/bin/bash
-set -euo pipefail
+set -euox pipefail
 IFS=$'\n\t'
 
-#installing vmtouch from git
-git clone https://github.com/hoytech/vmtouch.git /tmp/buildvmtouch
-cd /tmp/buildvmtouch
+BUILD_DIR=/tmp/buildvmtouch
+
+git clone https://github.com/hoytech/vmtouch.git $BUILD_DIR
+cd $BUILD_DIR
+
 make
 sudo make install
+
 cd -
-rm -rf /tmp/buildvmtouch
+
+rm -rf $BUILD_DIR
