@@ -5,13 +5,9 @@ IFS=$'\n\t'
 sudo add-apt-repository -y ppa:numix/ppa
 sudo add-apt-repository -y ppa:webupd8team/terminix
 
-sudo apt-get update
-sudo apt-get -y upgrade
-sudo apt-get -yV install 													 \
-	adb albert autossh build-essential checkinstall chromium-browser compton \
-	doublecmd-gtk fastboot ffmpeg filezilla gparted htop iotop keepass2 	 \
-	mc moc numix-icon-theme openssh-server php-cli qbittorrent redshift-gtk  \
-	screenfetch sublime-text tilix tmux tree zsh awesome
+sudo apt update
+sudo apt -y upgrade
+xargs -a packages.list sudo apt install -yV
 
 ./link_configs.sh
 
