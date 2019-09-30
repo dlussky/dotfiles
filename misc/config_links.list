@@ -7,7 +7,6 @@
 .config/tilix
 .config/zsh
 .config/oh-my-zsh
-.config/pulse/default.pa
 .local/share/icons/flags
 .local/share/mc/skins
 .moc
