@@ -2,14 +2,14 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+./link_configs.sh
+
 sudo add-apt-repository -y ppa:numix/ppa
 sudo add-apt-repository -y ppa:webupd8team/terminix
 
 sudo apt update
 sudo apt -y upgrade
-xargs -a packages.list sudo apt install -yV
-
-./link_configs.sh
+xargs -a misc/packages.list sudo apt install -yV
 
 ./install_albert.sh
 ./install_oh_my_zsh.sh
