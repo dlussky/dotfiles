@@ -29,3 +29,8 @@ tree
 zsh
 oxygen-cursor-theme-extra
 dconf-editor
+apt-transport-https
+software-properties-common
+gnupg-agent
+openconnect
+cpufrequtils
