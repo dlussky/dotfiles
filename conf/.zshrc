@@ -35,6 +35,11 @@ if [ -d "$HOME/.config/composer/vendor/bin" ] ; then
   PATH="$HOME/.config/composer/vendor/bin:$PATH"
 fi
 
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+
 # Custom configs
 export CUSTOM_CONFIGS_DIR=$HOME/.config/zsh
 
