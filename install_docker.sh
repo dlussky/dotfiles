@@ -2,8 +2,8 @@
 set -euox pipefail
 IFS=$'\n\t'
 
-#Для 18.04 bionic, для 16.04 xenial
-UBUNTU_CODENAME="bionic"
+#20.04 - focal/18.04 - bionic
+UBUNTU_CODENAME="focal"
 DOCKER_REPO_KEY_URL="https://download.docker.com/linux/ubuntu/gpg"
 DOCKER_REPO_STRING="deb [arch=amd64] https://download.docker.com/linux/ubuntu $UBUNTU_CODENAME stable"
 DOCKER_APT_LIST_FILENAME="/etc/apt/sources.list.d/docker-repository-$UBUNTU_CODENAME.list"
