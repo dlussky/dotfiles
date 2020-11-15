@@ -5,10 +5,9 @@ IFS=$'\n\t'
 ./link_configs.sh
 
 sudo add-apt-repository -y ppa:numix/ppa
-sudo add-apt-repository -y ppa:webupd8team/terminix
 
 sudo apt update
-sudo apt -y upgrade
+sudo apt upgrade -y
 xargs -a misc/packages.list sudo apt install -yV
 
 ./install_albert.sh
@@ -22,7 +21,9 @@ ln -s ~/.local/share/icons/flags ~/.icons/flags
 dconf write /org/mate/desktop/peripherals/keyboard/indicator/show-flags "true"
 # applies performance cpu governer
 echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
+sudo systemctl stop ondemand
 sudo systemctl disable ondemand
+sudo systemctl mask ondemand
 
 # bbr congestion control
 printf "net.core.default_qdisc=fq \nnet.ipv4.tcp_congestion_control=bbr" | sudo tee /etc/sysctl.d/42-congestion.conf
