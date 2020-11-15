@@ -368,7 +368,7 @@ awful.rules.rules = {
         move_timer:start()
       end
     },
-    { rule = { name = "x-caja-desktop" },
+    { rule = { name = "Desktop" },
       properties = { sticky = true, focusable = false } },
     { rule = { class = "TelegramDesktop" },
       properties = { minimized = false } },
