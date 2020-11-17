@@ -14,11 +14,14 @@ xargs -a misc/packages.list sudo apt install -yV
 ./install_oh_my_zsh.sh
 ./install_motd_rocket.sh
 ./install_vmtouch.sh
+./install_bat.sh
 
 # creates additional symlink for icons
 ln -s ~/.local/share/icons/flags ~/.icons/flags
 # applies flag icons from freeflagicons.com
 dconf write /org/mate/desktop/peripherals/keyboard/indicator/show-flags "true"
+# sets awesome as preferred window manager
+dconf write /org/mate/desktop/session/required-components/windowmanager "'awesome'"
 # applies performance cpu governer
 echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
 sudo systemctl stop ondemand
