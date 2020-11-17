@@ -346,6 +346,12 @@ awful.rules.rules = {
         move_timer:start()
       end
    },
+    { rule = { role = "PictureInPicture" },
+      properties = { 
+        sticky = true,
+        focusable = false 
+      } 
+    },
     { rule = { class = "Tilix" },
       properties = { 
         floating = true, 
