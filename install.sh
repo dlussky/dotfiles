@@ -34,3 +34,7 @@ printf "net.core.default_qdisc=fq \nnet.ipv4.tcp_congestion_control=bbr" | sudo 
 echo 'fs.inotify.max_user_watches=524288' | sudo tee /etc/sysctl.d/42-inotify-watch-limit.conf
 # applies sysctl config
 sudo sysctl -p
+#awesomewm cursor fix
+xsetroot -cursor_name left_ptr
+#firefox libinput scrolling fix
+echo "MOZ_USE_XINPUT2=1" | sudo tee -a /etc/environment.d/10-firefox-libintput-fix.conf
