@@ -35,3 +35,4 @@ software-properties-common
 gnupg-agent
 openconnect
 cpufrequtils
+xdotool
