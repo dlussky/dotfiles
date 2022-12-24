@@ -4,7 +4,7 @@ alias chmodd='find . -type d -exec chmod 775 {} \;'
 alias ll='ls -laFh --group-directories-first --color'
 alias l='ll'
 alias tree="tree -vaC --dirsfirst"
-
+alias ping="fping -lp500"
 function ttd() {
   date -d @$1 +'%d.%m.%Y %H:%M:%S'
 }

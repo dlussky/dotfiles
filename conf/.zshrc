@@ -39,6 +39,14 @@ if [ -d "$HOME/.local/bin" ] ; then
   PATH="$HOME/.local/bin:$PATH"
 fi
 
+if [ -d "$HOME/dev/go/bin" ] ; then
+  PATH="$HOME/dev/go/bin:$PATH"
+fi
+
+if [ -d "$HOME/dev/go/go1.19/bin" ] ; then
+  PATH="$HOME/dev/go/go1.19/bin:$PATH"
+fi
+
 
 # Custom configs
 export CUSTOM_CONFIGS_DIR=$HOME/.config/zsh
@@ -51,3 +59,8 @@ export CUSTOM_CONFIGS_DIR=$HOME/.config/zsh
 if [ -f "$CUSTOM_CONFIGS_DIR/custom-aliases.zsh" ] ; then
   . $CUSTOM_CONFIGS_DIR/custom-aliases.zsh
 fi
+
+#Fix for SSH keyring in Tilix, started by Mint's startup dispatcher
+export SSH_AUTH_SOCK=/run/user/$UID/keyring/ssh
+
+autoload -U compinit; compinit
