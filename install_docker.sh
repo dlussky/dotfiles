@@ -16,7 +16,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 if [ ! -f $DOCKER_APT_LIST_FILENAME ] ; then
     echo $DOCKER_REPO_STRING | sudo tee $DOCKER_APT_LIST_FILENAME
-    apt update
+    sudo apt update
 fi
 
 sudo apt install -yV docker-ce
