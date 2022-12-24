@@ -3,7 +3,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 #installing awesome from git
-AWESOME_VERSION="v4.2"
+AWESOME_VERSION="v4.3"
 
 BUILD_DIR=/tmp/awesome
 

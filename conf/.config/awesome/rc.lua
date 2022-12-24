@@ -6,38 +6,58 @@ local beautiful = require("beautiful")
 
 local autofocus = require("awful.autofocus")
 
-local handle_errors = false
+local handle_errors = true
 if (handle_errors) then
-  local naughty   = require("naughty")
-  -- {{{ Error handling
-  -- Check if awesome encountered an error during startup and fell back to
-  -- another config (This code will only ever execute for the fallback config)
-  if awesome.startup_errors then
-      naughty.notify({ preset = naughty.config.presets.critical,
-                       title = "Oops, there were errors during startup!",
-                       text = awesome.startup_errors })
-  end
+    -- {{{ Error handling
+    -- @DOC_ERROR_HANDLING@
+    -- Check if awesome encountered an error during startup and fell back to
+    -- another config (This code will only ever execute for the fallback config)
+    if awesome.startup_errors then
+        naughty.notify({ preset = naughty.config.presets.critical,
+                         title = "Oops, there were errors during startup!",
+                         text = awesome.startup_errors })
+    end
 
-  -- Handle runtime errors after startup
-  do
-      local in_error = false
-      awesome.connect_signal("debug::error", function (err)
-          -- Make sure we don't go into an endless error loop
-          if in_error then return end
-          in_error = true
+    -- Handle runtime errors after startup
+    do
+        local in_error = false
+        awesome.connect_signal("debug::error", function (err)
+            -- Make sure we don't go into an endless error loop
+            if in_error then return end
+            in_error = true
 
-          naughty.notify({ preset = naughty.config.presets.critical,
-                           title = "Oops, an error happened!",
-                           text = tostring(err) })
-          in_error = false
-      end)
-  end
-  -- }}}
+            naughty.notify({ preset = naughty.config.presets.critical,
+                             title = "Oops, an error happened!",
+                             text = tostring(err) })
+            in_error = false
+        end)
+    end
+    -- }}}
 end
 
 -- {{{ Variable definitions
+-- @DOC_LOAD_THEME@
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/default/theme.lua")
+beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+
+-- @DOC_WALLPAPER@
+local function set_wallpaper(s)
+    -- Wallpaper
+    if beautiful.wallpaper then
+        local wallpaper = beautiful.wallpaper
+        -- If wallpaper is a function, call it with the screen
+        if type(wallpaper) == "function" then
+            wallpaper = wallpaper(s)
+        end
+        gears.wallpaper.maximized(wallpaper, s, true)
+    end
+end
+
+-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+screen.connect_signal("property::geometry", set_wallpaper)
+
+
+
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
@@ -55,7 +75,6 @@ modkey = "Mod4"
 awful.layout.layouts =
 {
     awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
     awful.layout.suit.fair,
     -- awful.layout.suit.floating,
     -- awful.layout.suit.tile,
@@ -85,14 +104,16 @@ autoraise_exceptions = { "Mate-panel"}
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 awful.screen.connect_for_each_screen(function(s)
---    screen[s].padding = {left=0,top=0,right=0,bottom=28}
---    screen[s].workarea = {x=0,y=0,width=1920,height=1052}
+
+    set_wallpaper(s)
+    -- screen[s].padding = {left=0,top=0,right=0,bottom=40}
+    -- screen[s].workarea = {x=0,y=0,width=1920,height=1040}
     -- Each screen has its own tag table.
     awful.tag({ 1, 2, 3, 4, 5, 6 }, s, awful.layout.layouts[1])
     -- awful.layout.set(awful.layout.suit.tile, awful.tag.find_by_name(s, "1"))
     -- awful.layout.set(awful.layout.suit.tile, awful.tag.find_by_name(s, "2"))
     -- awful.tag.setmwfact(0.75, awful.tag.find_by_name(s, "1"))
-    -- awful.tag.setmwfact(0.75, awful.tag.find_by_name(s, "2"))
+    awful.tag.setmwfact(0.72, awful.tag.find_by_name(s, "3"))
 end)
 -- }}}
 
@@ -177,9 +198,9 @@ clientkeys = awful.util.table.join(
         end ,
     {description = "demaximize", group = "client"}),
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      
-        function (c) 
-          if not awful.util.table.hasitem(close_exceptions, c.class) then 
+    awful.key({ "Control", "Mod1", "Shift"   }, "e",
+        function (c)
+          if not awful.util.table.hasitem(close_exceptions, c.class) then
             c:kill()
           end
         end),
@@ -187,12 +208,13 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
+    awful.key({ modkey,           }, "s",      function (c) c.sticky = not c.sticky            end),
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
 
-            if not awful.util.table.hasitem(minimize_exceptions, c.class) then 
+            if not awful.util.table.hasitem(minimize_exceptions, c.class) then
               c.minimized = true
             end
         end),
@@ -267,15 +289,15 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { 
+      properties = {
         border_width = 0,
         focus = awful.client.focus.filter,
         raise = true,
         keys = clientkeys,
         buttons = clientbuttons,
         screen = awful.screen.preferred,
-        placement = awful.placement.no_overlap+awful.placement.no_offscreen 
-      } 
+        placement = awful.placement.no_overlap+awful.placement.no_offscreen
+      }
     },
     -- Floating clients.
     { rule_any = {
@@ -301,7 +323,7 @@ awful.rules.rules = {
           "AlarmWindow",  -- Thunderbird's calendar.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
-      }, properties = { floating = true }},       
+      }, properties = { floating = true }},
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "dialog" }
       }, properties = { titlebars_enabled = true }
@@ -347,19 +369,19 @@ awful.rules.rules = {
       end
    },
     { rule = { role = "PictureInPicture" },
-      properties = { 
+      properties = {
         sticky = true,
-        focusable = false 
-      } 
+        focusable = false
+      }
     },
     { rule = { class = "Tilix" },
-      properties = { 
-        floating = true, 
+      properties = {
+        floating = true,
         sticky = true,
         maximized = false,
-        maximized_vertical = false,
+        maximized_vertical = true,
         maximized_horizontal = false
-      } 
+      }
     },
     { rule = { class = "Clock-applet" },
       properties = { sticky = true, ontop = true },
@@ -435,7 +457,7 @@ client.connect_signal("request::titlebars", function(c)
             awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal(),
         },
-        layout = wibox.layout.align.horizontal, 
+        layout = wibox.layout.align.horizontal,
     }
     awful.titlebar(c)
 end)
@@ -446,15 +468,15 @@ autoraise_timer = gears.timer{timeout = 0.8}
 autoraise_timer:connect_signal("timeout", function()
   -- print('autoraise_timer')
   autoraise_timer:stop()
-  pcall(function ()  
+  pcall(function ()
     if (
-      autoraise_target 
-      and autoraise_target.focusable 
+      autoraise_target
+      and autoraise_target.focusable
       and not awful.util.table.hasitem(autoraise_exceptions, autoraise_target.class)
-      ) then 
+      ) then
 
-      autoraise_target:raise() 
-    end 
+      autoraise_target:raise()
+    end
   end)
   autoraise_target = nil
 end)
@@ -472,8 +494,8 @@ client.connect_signal("mouse::leave", function(c)
   if autoraise_timer.started then
     autoraise_timer:stop()
   end
-  if autoraise_target ~= nil then 
-    autoraise_target = nil 
+  if autoraise_target ~= nil then
+    autoraise_target = nil
   end
 end)
 --- }}}
