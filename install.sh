@@ -9,6 +9,7 @@ sudo add-apt-repository -y ppa:numix/ppa
 sudo apt update
 sudo apt upgrade -y
 xargs -a misc/packages.list sudo apt install -yV
+xargs -a misc/unwanted-packages.list sudo apt purge -yV
 
 ./install_albert.sh
 ./install_oh_my_zsh.sh

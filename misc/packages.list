@@ -9,6 +9,7 @@ doublecmd-gtk
 fastboot
 ffmpeg
 filezilla
+fping
 gparted
 guvcview
 htop
@@ -36,3 +37,4 @@ gnupg-agent
 openconnect
 cpufrequtils
 xdotool
+ripgrep
