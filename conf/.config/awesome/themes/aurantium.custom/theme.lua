@@ -37,7 +37,7 @@ theme.menu_height = 16
 theme.menu_width  = 150
 
 -- You can use your own command to set your wallpaper
-theme.wallpaper = "~/.config/awesome/themes/aurantium.custom/wallpaper.jpg"
+theme.wallpaper = "@AWESOME_THEMES_PATH@/aurantium.custom/wallpaper.jpg"
 
 -- You can use your own layout icons like this:
 theme.layout_tile = "~/.config/awesome/themes/aurantium.custom/layouts/tile.png"
