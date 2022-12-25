@@ -1,0 +1,21 @@
+#!/bin/bash
+case "$1" in
+"quiet")
+  LEVEL=5
+  ;;
+"loud")
+  LEVEL=7
+  ;;
+"full")
+  LEVEL="full-speed"
+  ;;
+"auto")
+  LEVEL="auto"
+  ;;
+*)
+  echo "Available levels: quiet, loud, full, auto"
+  exit 0
+  ;;
+esac
+
+echo level $LEVEL > /proc/acpi/ibm/fan
