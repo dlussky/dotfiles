@@ -1,0 +1,3 @@
+#!/bin/sh
+
+env --unset=DESKTOP_AUTOSTART_ID QT_SCALE_FACTOR=1.5 albert
